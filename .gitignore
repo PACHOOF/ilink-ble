@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Editores
+.vscode/
+.idea/
+
+# Capturas (pueden contener datos personales)
+*.pklg
+*.pcap
+*.pcapng
+*.btsnoop
+sysdiagnose_*/
+
+# Configuración local
+.ilink.json
