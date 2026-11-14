@@ -2,8 +2,6 @@
 
 Documentación del protocolo Bluetooth Low Energy de una lámpara inteligente controlada con la app **iLink**, obtenida por ingeniería inversa para poder controlarla sin la app oficial.
 
-> **Lámpara probada:** _[marca, modelo y FCC ID por completar]_
-
 ## Estado
 
 | Función | Estado |
