@@ -68,6 +68,33 @@ async def main():
             await asyncio.sleep(2)
 
             await lamp.brightness(255)
+            await asyncio.sleep(2)
+
+            await lamp.color((255,0,0))
+            await asyncio.sleep(2)
+            await lamp.color((0, 255, 0))
+            await asyncio.sleep(2)
+            await lamp.color((0, 0, 255))
+            await asyncio.sleep(2)
+
+            await lamp.brightness(10)
+            await asyncio.sleep(2)
+            await lamp.color((115, 0, 210))
+            await asyncio.sleep(2)
+            await lamp.brightness(255)
+            await asyncio.sleep(2)
+
+            await lamp.temperature(0)
+            await asyncio.sleep(2)
+            await lamp.temperature(255)
+            await asyncio.sleep(2)
+
+            await lamp.ambient_mode(1)
+            await asyncio.sleep(2)
+            await lamp.ambient_mode(3)
+            await asyncio.sleep(2)
+            await lamp.ambient_mode(5)
+            await asyncio.sleep(2)
     except (BleakError, asyncio.TimeoutError):
         print(f"[!] No se pudo conectar a {address}. Prueba con --scan para buscarla de nuevo.")
 

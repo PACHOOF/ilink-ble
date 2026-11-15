@@ -1,11 +1,8 @@
-"""Comunicación BLE con la lámpara iLink."""
-
 import protocol
 from bleak import BleakScanner, BleakClient
 
 LAMP_SERVICE_UUID = "0000a032-0000-1000-8000-00805f9b34fb"
 CHARACTERISTIC_UUID = "0000a040-0000-1000-8000-00805f9b34fb"
-
 
 async def scan():
     devices = await BleakScanner.discover(timeout=5, return_adv=True)
@@ -13,7 +10,6 @@ async def scan():
         if LAMP_SERVICE_UUID in adv.service_uuids:
             return d, adv
     return None, None
-
 
 class Lamp:
     def __init__(self, device):
@@ -42,5 +38,14 @@ class Lamp:
     async def off(self):
         await self._send(protocol.frame_off())
 
-    async def brightness(self, val):
+    async def brightness(self,val):
         await self._send(protocol.frame_brightness(val))
+
+    async def color(self,rgb):
+        await self._send(protocol.frame_color(rgb))
+
+    async def temperature(self,val):
+        await self._send(protocol.frame_temperature(val))
+
+    async def ambient_mode(self,mode):
+        await self._send(protocol.frame_ambient_mode(mode))
