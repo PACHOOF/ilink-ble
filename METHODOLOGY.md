@@ -75,6 +75,24 @@ Esos dos bytes siempre suman `0xF6` (módulo 256). Si se añaden `01 + 08 + 01`,
 - **Hora (`05/01`):** los datos `14 2E 03` son 20, 46 y 3 en decimal, y el paquete se envió a las 20:46:03 UTC. La app pone en hora la lámpara al conectarse.
 - **`0B/01`, `0B/0A`, `08/15`:** solo aparecen al conectar y no hay con qué compararlos, así que siguen sin identificar.
 
+### Localizar órdenes por su contenido
+
+Una vez conocido el formato, no hace falta cuadrar horas entre el iPhone y la captura. Todas las órdenes empiezan por `55 AA`, así que se pueden filtrar directamente:
+
+```
+btatt.value[0:2] == 55:aa
+```
+
+Y para ver solo las que todavía no se conocen, se excluyen los pares `CMD SUB` ya identificados (bytes 3 y 4 del valor):
+
+```
+btatt.value[0:2] == 55:aa && !(btatt.value[3:2] in {08:01 08:05 08:15 0b:01 0b:0a 05:01})
+```
+
+Además, la sincronización de hora (`05/01`) que la app envía al conectar lleva la hora UTC dentro de la trama. Eso marca el inicio de cada sesión aunque el reloj de la captura no cuadre.
+
+Así se encontraron el color RGB (`08/02`), la temperatura de blanco (`08/07`), el brillo de la pestaña de temperatura (`08/08`) y los modos (`08/09`): en cada captura se tocó una sola función de la app.
+
 ## 4. Verificación
 
 Para confirmar cada comando se envía la trama a la característica A040 (con la app oficial cerrada) y se observa la lámpara. Se puede hacer a mano con nRF Connect o con el script de este repositorio.
@@ -85,6 +103,7 @@ Resultados:
 - `08/01` cambia el brillo en todo el rango `00`–`FF`.
 - Una trama con el checksum mal calculado se ignora, lo que confirma que la lámpara lo valida.
 - No hace falta enviar la secuencia inicial de la app ni emparejar.
+- Color, temperatura y modos se probaron igual. Además se comprobó en cada uno si enciende la lámpara, si respeta el brillo y si sustituye a los demás, para construir el modelo de estado de `PROTOCOL.md`.
 
 ## 5. Herramientas usadas
 

@@ -10,8 +10,9 @@ Documentación del protocolo Bluetooth Low Energy de una lámpara inteligente co
 | Brillo | ✅ Confirmado |
 | Encender / apagar | ✅ Confirmado |
 | Sincronizar hora | 🟡 Deducido, sin probar |
-| Color (RGB) | ❌ Pendiente |
-| Modos y efectos | ❌ Pendiente |
+| Color RGB | ✅ Confirmado |
+| Temperatura de blanco | ✅ Confirmado |
+| Modos de ambiente | ✅ Confirmado |
 
 ## Resumen rápido
 
@@ -27,6 +28,9 @@ CHK = (0x100 - (LEN + CMD + SUB + DATOS...)) & 0xFF
 | Encender | `55AA01080501F1` |
 | Apagar | `55AA01080500F2` |
 | Brillo 50 % | `55AA0108018076` |
+| Rojo | `55AA030802FF0000F4` |
+| Blanco cálido | `55AA010807FFF1` |
+| Modo luz de vela | `55AA01080905E9` |
 
 ## Documentación
 
@@ -69,14 +73,6 @@ async def main():
 asyncio.run(main())
 ```
 
-### Pruebas
-
-```bash
-python test_protocol.py
-```
-
-Comprueba que las tramas generadas coinciden byte a byte con las capturadas de la app oficial. No necesita Bluetooth.
-
 ## Estructura
 
 | Archivo | Contenido |
@@ -84,7 +80,6 @@ Comprueba que las tramas generadas coinciden byte a byte con las capturadas de l
 | `protocol.py` | Construcción de tramas y checksum. No depende de Bluetooth. |
 | `lamp.py` | Escaneo y clase `Lamp` (conexión y envío con [bleak](https://github.com/hbldh/bleak)). |
 | `main.py` | Script de línea de comandos con la demo. |
-| `test_protocol.py` | Pruebas de `protocol.py`. |
 
 ## Aviso
 
